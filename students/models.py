@@ -2,7 +2,6 @@ from django.db import models
 from django.conf import settings
 from courses.models import Course
 
-
 class Student(models.Model):
     class Semester(models.TextChoices):
         SEM1 = "1", "Sem 1"
