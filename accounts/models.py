@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     class Role(models.TextChoices):
         ADMIN = "ADMIN","Admin"
-        TEAHCER ="TEAHCER","Teacher"
+        TEACHER ="TEAHCER","Teacher"
         STUDENT = "STUDENT","Student"
 
     role = models.CharField(max_length=10, choices=Role.choices)

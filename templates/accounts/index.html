@@ -1,0 +1,129 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ceniQ — Student Management System</title>
+  <meta name="description" content="ceniQ is a modern student management system for schools and colleges: enrolment, attendance and results in one place." />
+  <meta property="og:title" content="ceniQ — Student Management System" />
+  <meta property="og:description" content="Manage enrolment, attendance and exam results in one clean, modern system." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="stylesheet" href="{% static 'CSS/styles.css' %}" />
+</head>
+<body>
+  <div class="min-h-screen">
+
+    <!--Headerrr-->
+    <header class="navbar">
+      <div class="wrap navbar-inner">
+          
+          <div class="brand">
+            <img src="{% static 'IMG/ceniQ.png' %}" alt="ceniQ logo" class="ceniQ"/>
+            <span class="brand-sub">Student Management System</span>
+          </div>
+        <nav class="nav-links" aria-label="Main">
+          <a href="{% url 'accounts:index' %}" class="nav-link">Home</a>
+          <a href="{% url 'accounts:login' %}" class="nav-link">Log in</a>
+          <a href="{% url 'accounts:signup' %}" class="nav-cta">Sign up</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <!-- Hero -->
+      <section class="hero bg-hero-glow">
+        <div class="hero-bg grid-blueprint" aria-hidden="true"></div>
+        <div class="wrap hero-content">
+          <div class="hero-inner">
+            <span class="badge">
+              <span class="badge-dot"></span>
+              Student Management System
+            </span>
+
+            <h1>Everything your school needs, <span class="text-gradient-primary">beautifully organised</span></h1>
+
+            <p class="lead">
+              ceniQ keeps students, teachers, attendance and results in one fast, modern
+              workspace — no paperwork, no spreadsheets.
+            </p>
+
+            <div class="hero-actions">
+              <a href="{% url 'accounts:signup' %}" class="btn btn-primary">Get started free</a>
+              <a href="{% url 'accounts:login' %}" class="btn btn-outline">Log in</a>
+            </div>
+
+            <dl class="stats">
+              <div class="stat">
+                <dt>3 roles</dt>
+                <dd>Admin · Teacher · Student</dd>
+              </div>
+              <div class="stat">
+                <dt>1 click</dt>
+                <dd>Daily attendance</dd>
+              </div>
+              <div class="stat">
+                <dt>Instant</dt>
+                <dd>Result publishing</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <!-- Features -->
+      <section class="section">
+        <div class="wrap section-inner">
+          <div class="section-head">
+            <h2>Built around your school day</h2>
+            <p>Every record, from enrolment to the final report card, in one connected system.</p>
+          </div>
+
+          <div class="feature-grid">
+            <div class="feature-card">
+              <span class="feature-step">01</span>
+              <h3>Pre-register students &amp; teachers</h3>
+              <p>Admins add records, assign IDs and keep the institution roster accurate and up to date.</p>
+            </div>
+            <div class="feature-card">
+              <span class="feature-step">02</span>
+              <h3>Track attendance daily</h3>
+              <p>Teachers mark attendance by course and date with clear present and absent status.</p>
+            </div>
+            <div class="feature-card">
+              <span class="feature-step">03</span>
+              <h3>Publish results instantly</h3>
+              <p>Enter exam marks once and let students view their progress the moment it's ready.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="cta-section">
+        <div class="wrap">
+          <div class="cta-box">
+            <div class="cta-bg grid-blueprint" aria-hidden="true"></div>
+            <div class="cta-content">
+              <h2>Ready to bring ceniQ to your campus?</h2>
+              <p>Create your account and start managing students in minutes.</p>
+              <a href="{% url 'accounts:signup' %}" class="btn">Create your account</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="wrap footer-inner">
+        <p>© 2026 <strong>ceniQ</strong> — Student Management System</p>
+        <p class="fine">Built for schools &amp; colleges</p>
+      </div>
+    </footer>
+  </div>
+
+  <script src="static/JS/script.js"></script>
+</body>
+</html>

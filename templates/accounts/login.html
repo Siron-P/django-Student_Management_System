@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Log in — ceniQ Student Management System</title>
+  <meta name="description" content="Log in to ceniQ to manage students, attendance and results." />
+  <meta property="og:title" content="Log in — ceniQ Student Management System" />
+  <meta property="og:description" content="Log in to ceniQ to manage students, attendance and results." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="stylesheet" href="{% static 'CSS/styles.css' %}" />
+  <style>
+    body { display: flex; flex-direction: column; min-height: 100vh; }
+  </style>
+</head>
+<body>
+
+  <!--Headerrr-->
+  <header class="navbar">
+    <div class="wrap navbar-inner">
+        
+        <div class="brand">
+          <img src="{% static 'IMG/ceniQ.png' %}" alt="ceniQ logo" class="ceniQ"/>
+          <span class="brand-sub">Student Management System</span>
+        </div>
+      <nav class="nav-links" aria-label="Main">
+        <a href="{% url 'accounts:index' %}" class="nav-link">Home</a>
+        <a href="{% url 'accounts:login' %}" class="nav-link">Log in</a>
+        <a href="{% url 'accounts:signup' %}" class="nav-cta">Sign up</a>
+        </nav>
+    </div>
+  </header>
+
+  <main class="auth-main bg-hero-glow">
+    <div class="hero-bg grid-blueprint" aria-hidden="true"></div>
+    <div class="wrap auth-wrap">
+      <div class="auth-card">
+        <div class="auth-head">
+          <img src="{% static 'IMG/ceniQ.png' %}" alt="ceniQ logo" class="ceniQ-Body"/>
+          <h1>Welcome back</h1>
+          <p>Log in to your Student Management System.</p>
+        </div>
+
+        <!-- Error banner: add class="visible" server-side/JS on failed login -->
+        <div class="auth-error" role="alert" aria-live="assertive" id="login-error">
+          There was a problem logging in. Please check your details and try again.
+        </div>
+
+        <form method="post" action="/api/login" class="auth-form" aria-describedby="login-error" data-auth-form="login-error">
+          <div class="field">
+            <label for="username">Username</label>
+            <input id="username" name="username" type="text" autocomplete="username" required />
+          </div>
+
+          <div class="field">
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" autocomplete="current-password" required />
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block">Log in</button>
+        </form>
+
+        <p class="auth-foot">
+          No account? <a href="{% url 'accounts:signup' %}">Sign up</a>
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <p>© 2026 <strong>ceniQ</strong> — Student Management System</p>
+      <p class="fine">Built for schools &amp; colleges</p>
+    </div>
+  </footer>
+
+  <script src="static/JS/script.js"></script>
+</body>
+</html>

@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 from courses.models import Course
 
-class Teahcer(models.Model):
+class Teacher(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete= models.CASCADE,

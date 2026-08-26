@@ -1,0 +1,107 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign up — ceniQ Student Management System</title>
+  <meta name="description" content="Create a ceniQ account to access your school records, attendance and results." />
+  <meta property="og:title" content="Sign up — ceniQ Student Management System" />
+  <meta property="og:description" content="Create a ceniQ account to access your school records, attendance and results." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="stylesheet" href="{% static 'CSS/styles.css' %}" />
+  <style>
+    body { display: flex; flex-direction: column; min-height: 100vh; }
+  </style>
+</head>
+<body>
+
+  <!--Headerrr-->
+  <header class="navbar">
+    <div class="wrap navbar-inner">
+        
+        <div class="brand">
+          <img src="{% static 'IMG/ceniQ.png' %}" alt="ceniQ logo" class="ceniQ"/>
+          <span class="brand-sub">Student Management System</span>
+        </div>
+      <nav class="nav-links" aria-label="Main">
+        <a href="{% url 'accounts:index' %}" class="nav-link">Home</a>
+        <a href="{% url 'accounts:login' %}" class="nav-link">Log in</a>
+        <a href="{% url 'accounts:signup' %}" class="nav-cta">Sign up</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="auth-main bg-hero-glow">
+    <div class="hero-bg grid-blueprint" aria-hidden="true"></div>
+    <div class="wrap auth-wrap">
+      <div class="auth-card">
+        <div class="auth-head">
+          <img src="{% static 'IMG/ceniQ.png' %}" alt="ceniQ logo" class="ceniQ-Body"/>
+          <h1>Create your <span class="text-gradient-primary">ceniQ</span> account</h1>
+          <p>Join your school's Student Management System.</p>
+        </div>
+
+        <!-- Error banner: add class="visible" server-side/JS on failed signup -->
+        <div class="auth-error" role="alert" aria-live="assertive" id="signup-error">
+          There was a problem creating your account. Please check the fields below.
+        </div>
+
+        <form method="post" action="/api/signup" class="auth-form" aria-describedby="signup-error" data-auth-form="signup-error">
+          <div class="field">
+            <label for="role">Role</label>
+            <select id="role" name="role" required>
+              <option value="">Select role</option>
+              <option value="STUDENT">Student</option>
+              <option value="TEACHER">Teacher</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="identifier">Student / Teacher ID</label>
+            <input id="identifier" name="identifier" type="text" required />
+          </div>
+
+          <div class="form-row">
+            <div class="field">
+              <label for="first_name">First name</label>
+              <input id="first_name" name="first_name" type="text" required />
+            </div>
+            <div class="field">
+              <label for="last_name">Last name</label>
+              <input id="last_name" name="last_name" type="text" required />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="password1">Password</label>
+            <input id="password1" name="password1" type="password" autocomplete="new-password" required />
+          </div>
+
+          <div class="field">
+            <label for="password2">Confirm password</label>
+            <input id="password2" name="password2" type="password" autocomplete="new-password" required />
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block">Create account</button>
+        </form>
+
+        <p class="auth-foot">
+          Already have an account? <a href="{% url 'accounts:login' %}">Log in</a>
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <p>© 2026 <strong>ceniQ</strong> — Student Management System</p>
+      <p class="fine">Built for schools &amp; colleges</p>
+    </div>
+  </footer>
+
+  <script src="static/JS/script.js"></script>
+</body>
+</html>

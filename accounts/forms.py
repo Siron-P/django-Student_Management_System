@@ -1,7 +1,8 @@
 from django import forms
 from django.contrib.auth.password_validation import validate_password
-from .models import Student
-from .models import Teacher
+
+from students.models import Student
+from teachers.models import Teacher
 from .models import User
 
 class SignupForm(forms.Form):
@@ -32,7 +33,7 @@ class SignupForm(forms.Form):
         if password1:
             validate_password(password1)
 
-        if not(role and identifier and first_name and last_name)
+        if not(role and identifier and first_name and last_name):
           return cleaned
 
         if role == User.Role.STUDENT:
