@@ -17,7 +17,6 @@
 </head>
 <body>
 
-  <!--Headerrr-->
   <header class="navbar">
     <div class="wrap navbar-inner">
         
@@ -43,12 +42,12 @@
           <p>Log in to your Student Management System.</p>
         </div>
 
-        <!-- Error banner: add class="visible" server-side/JS on failed login -->
         <div class="auth-error" role="alert" aria-live="assertive" id="login-error">
           There was a problem logging in. Please check your details and try again.
         </div>
 
-        <form method="post" action="/api/login" class="auth-form" aria-describedby="login-error" data-auth-form="login-error">
+        <form method="post" action="{% url 'accounts:login' %}" class="auth-form" aria-describedby="login-error" data-auth-form="login-error">
+          {% csrf_token %}
           <div class="field">
             <label for="username">Username</label>
             <input id="username" name="username" type="text" autocomplete="username" required />
@@ -69,7 +68,6 @@
     </div>
   </main>
 
-  <!-- Footer -->
   <footer class="footer">
     <div class="wrap footer-inner">
       <p>© 2026 <strong>ceniQ</strong> — Student Management System</p>
@@ -77,6 +75,6 @@
     </div>
   </footer>
 
-  <script src="static/JS/script.js"></script>
+  <script src="{% static 'JS/script.js' %}"></script>
 </body>
 </html>

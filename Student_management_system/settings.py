@@ -125,6 +125,9 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR/"static"]
 
+LOGIN_URL = "accounts:login"
+LOGIN_REDIRECT_URL = "accounts:index"   # not usually reached since index() redirects by role, but Django wants a default
+LOGOUT_REDIRECT_URL = "accounts:index"
 
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration

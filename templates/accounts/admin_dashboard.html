@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Dashboard — ceniQ</title>
+  <link rel="stylesheet" href="{% static 'CSS/styles.css' %}" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="wrap navbar-inner">
+      <div class="brand">
+        <span class="brand-sub">Admin Dashboard</span>
+      </div>
+      <form method="post" action="{% url 'accounts:logout' %}" style="display:inline;">
+        {% csrf_token %}
+        <a href="{% url 'accounts:preregister' %}" class="btn btn-primary">Preregister Student/Teacher</a>
+        <button type="submit" class="nav-link">Log out</button>
+      </form>
+    </div>
+  </header>
+
+  <main>
+    <h1>Welcome, {{ request.username }}</h1>
+  </main>
+</body>
+</html>

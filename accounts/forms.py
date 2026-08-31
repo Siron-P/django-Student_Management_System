@@ -31,14 +31,17 @@ class SignupForm(forms.Form):
             self.add_error("password2", "Passwords donot match")
 
         if password1:
-            validate_password(password1)
+            try:
+                validate_password(password1)
+            except forms.ValidationError as e:
+                self.add_error("password1",e)
 
         if not(role and identifier and first_name and last_name):
           return cleaned
 
         if role == User.Role.STUDENT:
             try:
-                profile = Student.objects.get(studnet_id = identifier)
+                profile = Student.objects.get(student_id = identifier)
             except Student.DoesNotExist:
                 self.add_error("identifier","This student ID is not pre-registered.")
                 return cleaned
@@ -60,6 +63,9 @@ class SignupForm(forms.Form):
             self.add_error(None,"Name doesnot match our records.")
             return cleaned
 
+        cleaned["profile"] = profile
+        return cleaned
+
     def save(self):
         profile = self.cleaned_data["profile"]
         user = User.objects.create_user(
@@ -73,3 +79,38 @@ class SignupForm(forms.Form):
         profile.user = user
         profile.save()
         return user
+
+class PreregisterForm(forms.Form):
+    role = forms.ChoiceField(
+        choices=[
+            (User.Role.STUDENT,"Student"),
+            (User.Role.TEACHER,"Teacher"),
+        ]
+    )
+    identifier = forms.CharField(max_length=20, label="Student / Teacher ID")
+    first_name = forms.CharField(max_length=30)
+    last_name = forms.CharField(max_length=30)
+
+    def clean(self):
+        cleaned = super().clean()
+        role = cleaned.get("role")
+        identifier = cleaned.get("identifier")
+
+        if role and identifier:
+            if role == User.Role.STUDENT and Student.objects.filter(student_id=identifier).exists():
+                self.add_error("identifier", "This student ID is already registered.")
+            elif role == User.Role.TEACHER and Teacher.objects.filter(teacher_id=identifier).exists():
+                self.add_error("identifier", "This teacher ID is already registered.")
+
+        return cleaned
+
+    def save(self):
+        role = self.cleaned_data["role"]
+        identifier = self.cleaned_data["identifier"]
+        first_name = self.cleaned_data["first_name"]
+        last_name = self.cleaned_data["last_name"]
+
+        if role == User.Role.STUDENT:
+            return Student.objects.create(student_id=identifier, first_name=first_name, last_name=last_name)
+        else:
+            return Teacher.objects.create(teacher_id=identifier, first_name=first_name, last_name=last_name)

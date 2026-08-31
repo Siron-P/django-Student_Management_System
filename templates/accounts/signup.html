@@ -48,7 +48,8 @@
           There was a problem creating your account. Please check the fields below.
         </div>
 
-        <form method="post" action="/api/signup" class="auth-form" aria-describedby="signup-error" data-auth-form="signup-error">
+        <form method="post" action="{% url 'accounts:signup' %}" class="auth-form" aria-describedby="signup-error" data-auth-form="signup-error">
+          {% csrf_token %}
           <div class="field">
             <label for="role">Role</label>
             <select id="role" name="role" required>
@@ -102,6 +103,6 @@
     </div>
   </footer>
 
-  <script src="static/JS/script.js"></script>
+  <script src="{% static 'JS/script.js' %}"></script>
 </body>
 </html>

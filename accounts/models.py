@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     class Role(models.TextChoices):
         ADMIN = "ADMIN","Admin"
-        TEACHER ="TEAHCER","Teacher"
+        TEACHER ="TEACHER","Teacher"
         STUDENT = "STUDENT","Student"
 
     role = models.CharField(max_length=10, choices=Role.choices)
@@ -13,7 +13,7 @@ class User(AbstractUser):
         return self.role == self.Role.ADMIN or self.is_superuser
 
     def is_teacher(self):
-        return self.role == self.Role.TEAHCER
+        return self.role == self.Role.TEACHER
 
     def is_student(self):
         return self.role == self.Role.STUDENT
