@@ -3,22 +3,158 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Student Dashboard — ceniQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student dashboard — ceniQ</title>
+  <meta name="description" content="Your ceniQ student dashboard: attendance, latest results and enrolled courses." />
+  <meta property="og:title" content="Student dashboard — ceniQ" />
+  <meta property="og:description" content="Check your attendance, results and courses in ceniQ." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="stylesheet" href="{% static 'CSS/styles.css' %}" />
 </head>
 <body>
-  <header class="navbar">
-    <div class="wrap navbar-inner">
-      <span class="brand-sub">Student Dashboard</span>
-      <form method="post" action="{% url 'accounts:logout' %}" style="display:inline;">
-        {% csrf_token %}
-        <button type="submit" class="nav-link">Log out</button>
-      </form>
+  <div class="app-shell">
+    <aside class="app-sidebar">
+      <a href="{% url 'accounts:index' %}" class="brand">
+        <img src="{% static 'IMG/ceniQ.png' %}" alt="ceniQ logo" class="ceniQ"/>
+          <span class="brand-sub">Student Management System</span>
+        </span>
+      </a>
+      <nav class="app-nav" aria-label="Student">
+        <a href="{% url 'students:student_dashboard' %}" class="app-nav-item active">Dashboard</a>
+        <a href="#" class="app-nav-item">Attendance &amp; Results</a>
+        <a href="#" class="app-nav-item">Edit Profile</a>
+      </nav>
+    </aside>
+ 
+    <div class="app-main">
+      <header class="app-topbar">
+        <h1>Student dashboard</h1>
+        <div class="app-user">
+          <span class="app-user-avatar">R</span>
+          <span>
+            <span class="app-user-name" style="display:block;">Ram</span>
+            <span class="app-user-role">Student</span>
+          </span>
+          <form method="post" action="{% url 'accounts:logout' %}" class="nav-links" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="nav-link">Log out</button>
+          </form>
+        </div>
+      </header>
+ 
+      <main class="app-content">
+        <h2 style="font-size:1.5rem;font-weight:800;letter-spacing:-0.02em;color:var(--foreground);margin:0;">
+          Welcome, Ram
+        </h2>
+        <p class="mt-1" style="font-size:0.875rem;color:var(--muted-foreground);">
+          Student ID STU001 · BCA · Semester 4
+        </p>
+ 
+        <div class="notice mt-6">
+          <p>Your profile is incomplete.</p>
+          <a href="#">Complete profile →</a>
+        </div>
+ 
+        <div class="grid lg-cols-3 mt-6">
+          <div class="card">
+            <p style="font-size:0.875rem;font-weight:500;color:var(--muted-foreground);margin:0;">Attendance</p>
+            <p style="margin:0.5rem 0 0;font-size:1.875rem;font-weight:800;color:var(--primary);">36%</p>
+            <div class="progress">
+              <div class="progress-fill" style="width:86%;"></div>
+            </div>
+            <p class="stat-card-note">This semester</p>
+          </div>
+          <div class="card">
+            <p style="font-size:0.875rem;font-weight:500;color:var(--muted-foreground);margin:0;">Latest result</p>
+            <p style="margin:0.5rem 0 0;font-size:1.875rem;font-weight:800;color:var(--primary);">78/100</p>
+            <p class="stat-card-note">Database Midterm</p>
+          </div>
+          <div class="card">
+            <p style="font-size:0.875rem;font-weight:500;color:var(--muted-foreground);margin:0;">Courses enrolled</p>
+            <p style="margin:0.5rem 0 0;font-size:1.875rem;font-weight:800;color:var(--primary);">5</p>
+            <p class="stat-card-note">Semester 4</p>
+          </div>
+        </div>
+ 
+        <div class="grid sm-cols-2 mt-4">
+          <a href="#" class="link-tile">
+            <p>Attendance &amp; results</p>
+            <p>Open →</p>
+          </a>
+          <a href="#" class="link-tile">
+            <p>Edit profile</p>
+            <p>Open →</p>
+          </a>
+        </div>
+ 
+        <div class="grid lg-cols-2 mt-8">
+          <div class="card p-0">
+            <div class="card-header"><h3>Recent attendance</h3></div>
+            <table class="data-table">
+              <thead>
+                <tr><th>Date</th><th>Course</th><th>Status</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="cell-muted">2026-08-28</td>
+                  <td>Database</td>
+                  <td><span class="pill pill-good">Present</span></td>
+                </tr>
+                <tr>
+                  <td class="cell-muted">2026-08-27</td>
+                  <td>Python</td>
+                  <td><span class="pill pill-good">Present</span></td>
+                </tr>
+                <tr>
+                  <td class="cell-muted">2026-08-26</td>
+                  <td>Web Tech</td>
+                  <td><span class="pill pill-bad">Absent</span></td>
+                </tr>
+                <tr>
+                  <td class="cell-muted">2026-08-25</td>
+                  <td>Database</td>
+                  <td><span class="pill pill-good">Present</span></td>
+                </tr>
+                <tr>
+                  <td class="cell-muted">2026-08-24</td>
+                  <td>Discrete Math</td>
+                  <td><span class="pill pill-good">Present</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+ 
+          <div class="card p-0">
+            <div class="card-header"><h3>Recent results</h3></div>
+            <table class="data-table">
+              <thead>
+                <tr><th>Course</th><th>Exam</th><th>Marks</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Database</td>
+                  <td class="cell-muted">Midterm</td>
+                  <td class="cell-accent">78/100</td>
+                </tr>
+                <tr>
+                  <td>Python</td>
+                  <td class="cell-muted">Midterm</td>
+                  <td class="cell-accent">85/100</td>
+                </tr>
+                <tr>
+                  <td>Web Tech</td>
+                  <td class="cell-muted">Unit test</td>
+                  <td class="cell-accent">42/50</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
     </div>
-  </header>
-
-  <main>
-    <h1>Welcome, {{ user.first_name }}</h1>
-  </main>
+  </div>
+ 
+  <script src="{% static 'JS/script.js' %}"></script>
 </body>
 </html>

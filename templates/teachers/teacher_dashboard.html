@@ -3,22 +3,137 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Teacher Dashboard — ceniQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Teacher dashboard — ceniQ</title>
+  <meta name="description" content="ceniQ teacher dashboard: assigned courses, attendance marking and result entry." />
+  <meta property="og:title" content="Teacher dashboard — ceniQ" />
+  <meta property="og:description" content="Mark attendance, update results and view your students." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="stylesheet" href="{% static 'CSS/styles.css' %}" />
 </head>
 <body>
-  <header class="navbar">
-    <div class="wrap navbar-inner">
-      <span class="brand-sub">Teacher Dashboard</span>
-      <form method="post" action="{% url 'accounts:logout' %}" style="display:inline;">
-        {% csrf_token %}
-        <button type="submit" class="nav-link">Log out</button>
-      </form>
+  <div class="app-shell">
+ 
+    <!-- Sidebar -->
+    <aside class="app-sidebar">
+      <a href="{% url 'accounts:index' %}" class="brand">
+        <img src="{% static 'IMG/ceniQ.png' %}" alt="ceniQ logo" class="ceniQ"/>
+          <span class="brand-sub">Student Management System</span>
+        </span>
+      </a>
+      <nav class="app-nav" aria-label="Teacher">
+        <a href="{% url 'teachers:teacher_dashboard' %}" class="app-nav-item active">Dashboard</a>
+        <a href="#" class="app-nav-item">Mark Attendance</a>
+        <a href="#" class="app-nav-item">Update Results</a>
+        <a href="#" class="app-nav-item">My Students</a>
+      </nav>
+    </aside>
+ 
+    <div class="app-main">
+      <header class="app-topbar">
+        <h1>Teacher dashboard</h1>
+        <div class="app-user">
+          <span class="app-user-avatar">S</span>
+          <span>
+            <span class="app-user-name" style="display:block;">Sita</span>
+            <span class="app-user-role">Teacher</span>
+          </span>
+          <form method="post" action="{% url 'accounts:logout' %}" class="nav-links" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="nav-link">Log out</button>
+          </form>
+        </div>
+      </header>
+ 
+      <main class="app-content">
+        <h2 style="font-size:1.5rem;font-weight:800;letter-spacing:-0.02em;color:var(--foreground);margin:0;">
+          Welcome, Sita
+        </h2>
+        <p class="mt-1" style="font-size:0.875rem;color:var(--muted-foreground);">Teacher ID TCH001</p>
+ 
+        <div class="grid sm-cols-3 mt-6">
+          <div class="card">
+            <p style="margin:0;font-size:1rem;font-weight:700;color:var(--foreground);">Python</p>
+            <p style="margin:0.5rem 0 0;font-size:1.5rem;font-weight:800;color:var(--primary);">42</p>
+            <p class="stat-card-note">students</p>
+          </div>
+          <div class="card">
+            <p style="margin:0;font-size:1rem;font-weight:700;color:var(--foreground);">Database</p>
+            <p style="margin:0.5rem 0 0;font-size:1.5rem;font-weight:800;color:var(--primary);">38</p>
+            <p class="stat-card-note">students</p>
+          </div>
+          <div class="card">
+            <p style="margin:0;font-size:1rem;font-weight:700;color:var(--foreground);">Web Tech</p>
+            <p style="margin:0.5rem 0 0;font-size:1.5rem;font-weight:800;color:var(--primary);">31</p>
+            <p class="stat-card-note">students</p>
+          </div>
+        </div>
+ 
+        <div class="flex-row-wrap mt-6">
+          <a href="#" class="btn btn-primary">Mark attendance</a>
+          <a href="#" class="pill-link">Update results</a>
+          <a href="#" class="pill-link">My students</a>
+        </div>
+ 
+        <h3 class="mt-8" style="font-size:1rem;font-weight:700;color:var(--foreground);">Today's snapshot</h3>
+        <div class="grid sm-cols-2 mt-3 max-w-lg">
+          <div class="stat-card">
+            <p class="stat-card-label">Classes today</p>
+            <p class="stat-card-value">3</p>
+          </div>
+          <div class="stat-card">
+            <p class="stat-card-label">Pending result entries</p>
+            <p class="stat-card-value">2</p>
+          </div>
+        </div>
+ 
+        <div class="card p-0 mt-8">
+          <div class="card-header"><h3>My students</h3></div>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead>
+                <tr><th>ID</th><th>Name</th><th>Course</th><th>Attendance %</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="cell-strong">STU001</td>
+                  <td>Ram Thapa</td>
+                  <td class="cell-muted">Python</td>
+                  <td class="cell-accent">86%</td>
+                </tr>
+                <tr>
+                  <td class="cell-strong">STU007</td>
+                  <td>Nisha Bhandari</td>
+                  <td class="cell-muted">Database</td>
+                  <td class="cell-accent">92%</td>
+                </tr>
+                <tr>
+                  <td class="cell-strong">STU012</td>
+                  <td>Suman Rai</td>
+                  <td class="cell-muted">Web Tech</td>
+                  <td class="cell-accent">74%</td>
+                </tr>
+                <tr>
+                  <td class="cell-strong">STU018</td>
+                  <td>Kritika Sharma</td>
+                  <td class="cell-muted">Python</td>
+                  <td class="cell-accent">88%</td>
+                </tr>
+                <tr>
+                  <td class="cell-strong">STU024</td>
+                  <td>Dipesh Magar</td>
+                  <td class="cell-muted">Database</td>
+                  <td class="cell-accent">69%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
     </div>
-  </header>
-
-  <main>
-    <h1>Welcome, {{ user.first_name }}</h1>
-  </main>
+  </div>
+ 
+  <script src="{% static 'JS/script.js' %}"></script>
 </body>
 </html>

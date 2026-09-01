@@ -3,47 +3,150 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Preregister — ceniQ</title>
+  <meta name="description" content="Preregister a student or teacher in ceniQ so they can create their own account later." />
+  <meta property="og:title" content="Preregister — ceniQ" />
+  <meta property="og:description" content="Add a student or teacher record before they sign up." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="stylesheet" href="{% static 'CSS/styles.css' %}" />
 </head>
 <body>
-
-  <header class="navbar">
-    <div class="wrap navbar-inner">
-      <div class="brand">
-        <span class="brand-sub">Admin — Preregister</span>
-      </div>
-      <nav class="nav-links">
-        <a href="{% url 'accounts:admin_dashboard' %}" class="nav-link">Dashboard</a>
-        <form method="post" action="{% url 'accounts:logout' %}" style="display:inline;">
-          {% csrf_token %}
-          <button type="submit" class="nav-link">Log out</button>
-        </form>
+  <div class="app-shell">
+    <aside class="app-sidebar">
+      <a href="{% url 'accounts:index' %}" class="brand">
+        <img src="{% static 'IMG/ceniQ.png' %}" alt="ceniQ logo" class="ceniQ"/>
+          <span class="brand-sub">Student Management System</span>
+        </span>
+      </a>
+      <nav class="app-nav" aria-label="Admin">
+        <a href="{% url 'accounts:admin_dashboard' %}" class="app-nav-item">Dashboard</a>
+        <a href="{% url 'accounts:preregister' %}" class="app-nav-item active">Preregister</a>
+        <a href="#" class="app-nav-item">Students</a>
+        <a href="#" class="app-nav-item">Teachers</a>
+        <a href="#" class="app-nav-item">Courses</a>
+        
       </nav>
-    </div>
-  </header>
-
-  <main class="auth-main">
-    <div class="wrap auth-wrap">
-      <div class="auth-card">
-        <div class="auth-head">
-          <h1>Preregister a Student or Teacher</h1>
+    </aside>
+ 
+    <div class="app-main">
+      <header class="app-topbar">
+        <h1>Preregister</h1>
+        <div class="app-user">
+          <span class="app-user-avatar">A</span>
+          <span>
+            <span class="app-user-name" style="display:block;">Anil</span>
+            <span class="app-user-role">Admin</span>
+          </span>
         </div>
-
-        {% if form.errors %}
-        <div class="auth-error" role="alert">
-          Please fix the errors below.
+      </header>
+ 
+      <main class="app-content">
+        <a href="{% url 'accounts:admin_dashboard' %}" class="back-link">← Dashboard</a>
+ 
+        <div class="card max-w-3xl mt-4">
+          <h2 style="font-size:1.25rem;font-weight:800;letter-spacing:-0.02em;color:var(--foreground);margin:0;">
+            Preregister a student or teacher
+          </h2>
+          <p class="mt-1" style="font-size:0.875rem;color:var(--muted-foreground);">
+            They will create their own password later using this ID.
+          </p>
+ 
+          <div class="auth-error mt-6" role="alert" id="prereg-error">
+            Please fix the errors below.
+          </div>
+ 
+          <form method="post" action="/api/preregister" class="auth-form mt-6" aria-describedby="prereg-error">
+            <div class="field">
+              <label for="role">Role</label>
+              <select id="role" name="role">
+                <option value="STUDENT">Student</option>
+                <option value="TEACHER">Teacher</option>
+              </select>
+            </div>
+ 
+            <div class="form-row">
+              <div class="field">
+                <label for="first_name">First name</label>
+                <input id="first_name" name="first_name" type="text" />
+              </div>
+              <div class="field">
+                <label for="last_name">Last name</label>
+                <input id="last_name" name="last_name" type="text" />
+              </div>
+            </div>
+ 
+            <div class="field">
+              <label for="identifier">Student / Teacher ID</label>
+              <input id="identifier" name="identifier" type="text" placeholder="STU001" />
+            </div>
+ 
+            <!-- Shown when role = STUDENT -->
+            <div id="student-fields" class="form-row">
+              <div class="field">
+                <label for="course">Course</label>
+                <select id="course" name="course">
+                  <option value="BCA">BCA</option>
+                  <option value="BSC_CSIT">BSc CSIT</option>
+                  <option value="BIM">BIM</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="semester">Semester</label>
+                <select id="semester" name="semester">
+                  <option value="Sem 1">Sem 1</option>
+                  <option value="Sem 2">Sem 2</option>
+                  <option value="Sem 3">Sem 3</option>
+                  <option value="Sem 4">Sem 4</option>
+                  <option value="Sem 5">Sem 5</option>
+                  <option value="Sem 6">Sem 6</option>
+                  <option value="Sem 7">Sem 7</option>
+                  <option value="Sem 8">Sem 8</option>
+                </select>
+              </div>
+            </div>
+ 
+            <!-- Shown when role = TEACHER -->
+            <fieldset id="teacher-fields" style="display:none;">
+              <legend class="field-label" style="font-size:0.875rem;font-weight:600;color:var(--foreground);">Courses</legend>
+              <div class="checkbox-grid">
+                <label class="checkbox-item"><input type="checkbox" name="courses" value="Python" /> Python</label>
+                <label class="checkbox-item"><input type="checkbox" name="courses" value="Database" /> Database</label>
+                <label class="checkbox-item"><input type="checkbox" name="courses" value="Web Tech" /> Web Tech</label>
+                <label class="checkbox-item"><input type="checkbox" name="courses" value="Discrete Math" /> Discrete Math</label>
+              </div>
+            </fieldset>
+ 
+            <div class="stack sm-row" style="padding-top:0.5rem;">
+              <button type="submit" class="btn btn-primary">Add to ceniQ</button>
+              <a href="{% url 'accounts:admin_dashboard' %}" class="btn btn-outline" style="text-align:center;">Cancel</a>
+            </div>
+          </form>
         </div>
-        {% endif %}
-
-        <form method="post" action="{% url 'accounts:preregister' %}" class="auth-form">
-          {% csrf_token %}
-          {{ form.as_p }}
-          <button type="submit" class="btn btn-primary btn-block">Add</button>
-        </form>
-      </div>
+      </main>
     </div>
-  </main>
-
+  </div>
+ 
+  <script src="{% static 'JS/script.js' %}"></script>
+  <script>
+    // Replicates the React useState(role) toggle between STUDENT / TEACHER fields
+    (function () {
+      var roleSelect = document.getElementById("role");
+      var studentFields = document.getElementById("student-fields");
+      var teacherFields = document.getElementById("teacher-fields");
+      var identifier = document.getElementById("identifier");
+ 
+      function syncRole() {
+        var isStudent = roleSelect.value === "STUDENT";
+        studentFields.style.display = isStudent ? "grid" : "none";
+        teacherFields.style.display = isStudent ? "none" : "block";
+        identifier.placeholder = isStudent ? "STU001" : "TCH001";
+      }
+ 
+      roleSelect.addEventListener("change", syncRole);
+      syncRole();
+    })();
+  </script>
 </body>
 </html>

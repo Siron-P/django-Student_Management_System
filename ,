@@ -16,7 +16,9 @@
   <div class="app-shell">
     <aside class="app-sidebar">
       <a href="{% url 'accounts:index' %}" class="brand">
-        <img src="{% static 'IMG/ceniQ.png' %}" alt="ceniQ logo" class="ceniQ"/>
+        <img src="https://placehold.co/80x80/2f6bed/ffffff?text=Q" alt="ceniQ logo" />
+        <span class="brand-text">
+          <span class="brand-name">ceni<span class="text-gradient-primary">Q</span></span>
           <span class="brand-sub">Student Management System</span>
         </span>
       </a>
@@ -31,18 +33,19 @@
     </aside>
  
     <div class="app-main">
+      <!-- Topbar -->
       <header class="app-topbar">
         <h1>Admin dashboard</h1>
         <div class="app-user">
           <span class="app-user-avatar">A</span>
-          <span class="app-user-info">
-            <span class="app-user-name">Anil</span>
+          <span>
+            <span class="app-user-name" style="display:block;">Anil</span>
             <span class="app-user-role">Admin</span>
+            <form method="post" action="{% url 'accounts:logout' %}" class="app-nav-item">
+              {% csrf_token %}
+              <button type="submit">Log out</button>
+            </form>
           </span>
-          <form method="post" action="{% url 'accounts:logout' %}" class="nav-links" style="display:inline;">
-            {% csrf_token %}
-            <button type="submit" class="nav-link">Log out</button>
-          </form>
         </div>
       </header>
  
