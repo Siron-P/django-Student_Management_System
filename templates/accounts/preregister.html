@@ -25,7 +25,7 @@
         <a href="{% url 'accounts:preregister' %}" class="app-nav-item active">Preregister</a>
         <a href="#" class="app-nav-item">Students</a>
         <a href="#" class="app-nav-item">Teachers</a>
-        <a href="#" class="app-nav-item">Courses</a>
+        <a href="{% url 'courses:course_list' %}" class="app-nav-item">Courses</a>
         
       </nav>
     </aside>
@@ -34,10 +34,10 @@
       <header class="app-topbar">
         <h1>Preregister</h1>
         <div class="app-user">
-          <span class="app-user-avatar">A</span>
+          <span class="app-user-avatar">{{ user.first_name|first|upper }}</span>
           <span>
-            <span class="app-user-name" style="display:block;">Anil</span>
-            <span class="app-user-role">Admin</span>
+            <span class="app-user-name" style="display:block;">{{ user.first_name }}</span>
+            <span class="app-user-role">{{ user.get_role_display }}</span>
           </span>
         </div>
       </header>
@@ -57,7 +57,24 @@
             Please fix the errors below.
           </div>
  
-          <form method="post" action="/api/preregister" class="auth-form mt-6" aria-describedby="prereg-error">
+          <form method="post" action="{% url 'accounts:preregister' %}" class="auth-form mt-6" aria-describedby="prereg-error">
+          {% csrf_token %}
+
+            <!--FOR ERRORSS-->
+            {% if form.errors %}
+            <div class="auth-error visible" role="alert" aria-live="assertive">
+              {% for field in form %}
+                {% for error in field.errors %}
+                  <p>{{ field.label }}: {{ error }}</p>
+                {% endfor %}
+              {% endfor %}
+              {% for error in form.non_field_errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+            {% endif %}
+
+
             <div class="field">
               <label for="role">Role</label>
               <select id="role" name="role">
@@ -81,40 +98,40 @@
               <label for="identifier">Student / Teacher ID</label>
               <input id="identifier" name="identifier" type="text" placeholder="STU001" />
             </div>
- 
-            <!-- Shown when role = STUDENT -->
             <div id="student-fields" class="form-row">
               <div class="field">
                 <label for="course">Course</label>
+                
                 <select id="course" name="course">
-                  <option value="BCA">BCA</option>
-                  <option value="BSC_CSIT">BSc CSIT</option>
-                  <option value="BIM">BIM</option>
+                  {% for course in courses %}
+                  <option value="{{ course.id }}">{{ course.name }}</option>
+                  {% endfor %}
                 </select>
+                
               </div>
               <div class="field">
                 <label for="semester">Semester</label>
                 <select id="semester" name="semester">
-                  <option value="Sem 1">Sem 1</option>
-                  <option value="Sem 2">Sem 2</option>
-                  <option value="Sem 3">Sem 3</option>
-                  <option value="Sem 4">Sem 4</option>
-                  <option value="Sem 5">Sem 5</option>
-                  <option value="Sem 6">Sem 6</option>
-                  <option value="Sem 7">Sem 7</option>
-                  <option value="Sem 8">Sem 8</option>
+                  <option value="1">Sem 1</option>
+                  <option value="2">Sem 2</option>
+                  <option value="3">Sem 3</option>
+                  <option value="4">Sem 4</option>
+                  <option value="5">Sem 5</option>
+                  <option value="6">Sem 6</option>
+                  <option value="7">Sem 7</option>
+                  <option value="8">Sem 8</option>
                 </select>
               </div>
             </div>
  
-            <!-- Shown when role = TEACHER -->
             <fieldset id="teacher-fields" style="display:none;">
               <legend class="field-label" style="font-size:0.875rem;font-weight:600;color:var(--foreground);">Courses</legend>
               <div class="checkbox-grid">
-                <label class="checkbox-item"><input type="checkbox" name="courses" value="Python" /> Python</label>
-                <label class="checkbox-item"><input type="checkbox" name="courses" value="Database" /> Database</label>
-                <label class="checkbox-item"><input type="checkbox" name="courses" value="Web Tech" /> Web Tech</label>
-                <label class="checkbox-item"><input type="checkbox" name="courses" value="Discrete Math" /> Discrete Math</label>
+                {% for course in courses %}
+                <label class="checkbox-item">
+                  <input type="checkbox" name="courses" value="{{ course.id }}" /> {{ course.name }}
+                </label>
+                {% endfor %}
               </div>
             </fieldset>
  

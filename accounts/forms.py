@@ -4,6 +4,7 @@ from django.contrib.auth.password_validation import validate_password
 from students.models import Student
 from teachers.models import Teacher
 from .models import User
+from courses.models import Course
 
 class SignupForm(forms.Form):
     role = forms.ChoiceField(
@@ -90,6 +91,20 @@ class PreregisterForm(forms.Form):
     identifier = forms.CharField(max_length=20, label="Student / Teacher ID")
     first_name = forms.CharField(max_length=30)
     last_name = forms.CharField(max_length=30)
+    course = forms.ModelChoiceField(
+        queryset = Course.objects.all(),required= False,
+        label="Course (for students)"
+    )
+
+    semester = forms.ChoiceField(
+        choices=[("","Select Semester")]+list(Student.Semester.choices),
+        required=False,label="Semester (for student)"
+    )
+
+    courses = forms.ModelMultipleChoiceField(
+        queryset=Course.objects.all(), required=False,
+        label="Courses (for teacher)"
+    )
 
     def clean(self):
         cleaned = super().clean()
@@ -111,6 +126,17 @@ class PreregisterForm(forms.Form):
         last_name = self.cleaned_data["last_name"]
 
         if role == User.Role.STUDENT:
-            return Student.objects.create(student_id=identifier, first_name=first_name, last_name=last_name)
+            student = Student.objects.create(
+                student_id = identifier, first_name= first_name,last_name=last_name,
+                course = self.cleaned_data.get("course"),
+                semester = self.cleaned_data.get("semester"),
+            )
+            return student
         else:
-            return Teacher.objects.create(teacher_id=identifier, first_name=first_name, last_name=last_name)
+            teacher = Teacher.objects.create(
+                teacher_id = identifier,first_name=first_name,last_name= last_name,
+            )
+            selected_courses = self.cleaned_data.get("courses")
+            if selected_courses:
+                teacher.courses.set(selected_courses)
+            return teacher

@@ -7,16 +7,14 @@ from django.contrib.auth.forms import AuthenticationForm
 from .utils import redirect_after_login
 from .forms import SignupForm
 from .forms import PreregisterForm
+from students.models import Student
+from teachers.models import Teacher
+from courses.models import Course
 
 def index(request):
-    if request.user.is_authenticated:
-        return redirect(redirect_after_login(request.user))
     return render(request, "accounts/index.html")
 
 def login(request):
-    if request.user.is_authenticated:
-        return redirect(redirect_after_login(request.user))
-    
     if request.method == "POST":
         form = AuthenticationForm(request, data = request.POST)
         if form.is_valid():
@@ -29,9 +27,6 @@ def login(request):
     return render(request, "accounts/login.html",{"form":form})
 
 def signup(request):
-    if request.user.is_authenticated:
-        return redirect(redirect_after_login(request.user))
-
     if request.method == "POST":
         form = SignupForm(request.POST)
         if form.is_valid():
@@ -47,7 +42,17 @@ def signup(request):
 def admin_dashboard(request):
     if not request.user.is_admin():
         return HttpResponseForbidden("You don't have access to this page.")
-    return render(request, "accounts/admin_dashboard.html")
+
+    context = {
+        "total_students" : Student.objects.count(),
+        "total_teachers" : Teacher.objects.count(),
+        "total_courses" : Course.objects.count(),
+        "pending_signups" : Student.objects.filter(user__isnull=True).count()+
+                            Teacher.objects.filter(user__isnull=True).count(),
+        "students" : Student.objects.select_related("course").order_by("student_id"),
+        "teachers" : Teacher.objects.all().order_by("teacher_id"),
+    }
+    return render(request, "accounts/admin_dashboard.html",context)
 
 @login_required
 def preregister(request):
@@ -62,4 +67,7 @@ def preregister(request):
     else:
         form = PreregisterForm()
 
-    return render(request, "accounts/preregister.html", {"form": form})
+    return render(request, "accounts/preregister.html", {
+        "form": form,
+        "courses" : Course.objects.all()
+        })

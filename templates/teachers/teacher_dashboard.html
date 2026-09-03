@@ -34,10 +34,10 @@
       <header class="app-topbar">
         <h1>Teacher dashboard</h1>
         <div class="app-user">
-          <span class="app-user-avatar">S</span>
+          <span class="app-user-avatar">{{ user.first_name|first|upper}}</span>
           <span>
-            <span class="app-user-name" style="display:block;">Sita</span>
-            <span class="app-user-role">Teacher</span>
+            <span class="app-user-name" style="display:block;">{{ user.first_name }}</span>
+            <span class="app-user-role">{{ user.get_role_display }}</span>
           </span>
           <form method="post" action="{% url 'accounts:logout' %}" class="nav-links" style="display:inline;">
             {% csrf_token %}
@@ -48,9 +48,9 @@
  
       <main class="app-content">
         <h2 style="font-size:1.5rem;font-weight:800;letter-spacing:-0.02em;color:var(--foreground);margin:0;">
-          Welcome, Sita
+          Welcome, {{ user.first_name }}
         </h2>
-        <p class="mt-1" style="font-size:0.875rem;color:var(--muted-foreground);">Teacher ID TCH001</p>
+        <p class="mt-1" style="font-size:0.875rem;color:var(--muted-foreground);">Teacher ID {{ profile.teacher_id }}</p>
  
         <div class="grid sm-cols-3 mt-6">
           <div class="card">

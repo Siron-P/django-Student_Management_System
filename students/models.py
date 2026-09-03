@@ -28,7 +28,7 @@ class Student(models.Model):
     course = models.ForeignKey(
         Course, on_delete=models.SET_NULL, null=True, blank=True, related_name="students"
     )
-    semester = models.CharField(max_length=1, choices=Semester.choices, blank=True)
+    semester = models.CharField(max_length=1, choices=Semester.choices, blank=True, null=True)
 
     # --- filled by STUDENT later, via complete_profile page ---
     email = models.EmailField(unique=True, null=True, blank=True)

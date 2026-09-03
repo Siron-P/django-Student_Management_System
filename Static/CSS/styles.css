@@ -1121,3 +1121,69 @@ legend { padding: 0; }
 .mt-4 { margin-top: 1rem; }
 .mt-6 { margin-top: 1.5rem; }
 .mt-8 { margin-top: 2rem; }
+
+.max-w-xl { max-width: 36rem; }
+.mx-auto { margin-left: auto; margin-right: auto; }
+.w-fit { width: fit-content; }
+
+.header-row {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+ 
+@media (min-width: 640px) {
+  .header-row {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+}
+ 
+.field-hint {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}
+ 
+/* Empty state (e.g. "No courses yet") */
+.empty-state {
+  padding: 4rem 1.5rem;
+  text-align: center;
+}
+ 
+.empty-state p {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--muted-foreground);
+}
+ 
+.empty-state .btn {
+  margin-top: 1rem;
+}
+ 
+/* Row of text action links (Edit / Delete) */
+.row-actions {
+  display: flex;
+  gap: 1rem;
+}
+ 
+.link-primary {
+  font-weight: 600;
+  color: var(--primary);
+}
+ 
+.link-destructive {
+  font-weight: 600;
+  color: var(--destructive);
+}
+ 
+.link-primary:hover,
+.link-destructive:hover {
+  text-decoration: underline;
+}
+ 
+/* Roomier data-table variant used on the course list */
+.data-table-lg thead th { padding: 1rem 1.5rem; }
+.data-table-lg tbody td { padding: 1.25rem 1.5rem; }

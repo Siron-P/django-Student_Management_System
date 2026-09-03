@@ -50,6 +50,18 @@
 
         <form method="post" action="{% url 'accounts:signup' %}" class="auth-form" aria-describedby="signup-error" data-auth-form="signup-error">
           {% csrf_token %}
+          {% if form.errors %}
+          <div class="auth-error visible" role="alert" aria-live="assertive">
+            {% for field in form %}
+              {% for error in field.errors %}
+                <p>{{ field.label }}: {{ error }}</p>
+              {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+          {% endif %}
           <div class="field">
             <label for="role">Role</label>
             <select id="role" name="role" required>
@@ -84,7 +96,7 @@
             <label for="password2">Confirm password</label>
             <input id="password2" name="password2" type="password" autocomplete="new-password" required />
           </div>
-
+          
           <button type="submit" class="btn btn-primary btn-block">Create account</button>
         </form>
 

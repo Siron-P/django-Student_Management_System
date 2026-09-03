@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin dashboard — ceniQ</title>
+  <meta name="description" content="ceniQ admin dashboard: students, teachers, courses and pending signups at a glance." />
+  <meta property="og:title" content="Admin dashboard — ceniQ" />
+  <meta property="og:description" content="Manage students, teachers and courses in ceniQ." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="stylesheet" href="{% static 'CSS/styles.css' %}" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="app-sidebar">
+      <a href="{% url 'accounts:index' %}" class="brand">
+        <img src="{% static 'IMG/ceniQ.png' %}" alt="ceniQ logo" class="ceniQ"/>
+          <span class="brand-sub">Student Management System</span>
+        </span>
+      </a>
+      <nav class="app-nav" aria-label="Admin">
+        <a href="{% url 'accounts:admin_dashboard' %}" class="app-nav-item">Dashboard</a>
+        <a href="{% url 'accounts:preregister' %}" class="app-nav-item">Preregister</a>
+        <a href="#" class="app-nav-item">Students</a>
+        <a href="#" class="app-nav-item">Teachers</a>
+        <a href="{% url 'courses:course_list' %}" class="app-nav-item active">Courses</a>
+        
+      </nav>
+    </aside>
+ 
+    <div class="app-main">
+      <header class="app-topbar">
+        <h1>Admin dashboard</h1>
+        <div class="app-user">
+          <span class="app-user-avatar">{{ user.first_name|first|upper}}</span>
+          <span class="app-user-info">
+            <span class="app-user-name">{{ user.first_name }}</span>
+            <span class="app-user-role">{{ user.get_role_display }}</span>
+          </span>
+          <form method="post" action="{% url 'accounts:logout' %}" class="nav-links" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="nav-link">Log out</button>
+          </form>
+        </div>
+      </header>
+
+  <main class="app-content">
+        <div class="header-row">
+          <div>
+            <h2 style="font-size:1.5rem;font-weight:800;letter-spacing:-0.02em;color:var(--foreground);margin:0;">
+              Courses
+            </h2>
+            <p class="mt-1" style="font-size:0.875rem;color:var(--muted-foreground);">All programmes in ceniQ</p>
+          </div>
+          <a href="{% url 'courses:add_course' %}" class="btn btn-primary w-fit">Add course</a>
+        </div>
+ 
+        <div class="card p-0 mt-8">
+          <div class="table-scroll">
+            <table class="data-table data-table-lg">
+              <thead>
+                <tr>
+                  <th>Code</th>
+                  <th>Name</th>
+                  <th>Students</th>
+                  <th>Teachers</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for course in courses %}
+                <tr>
+                  <td class="cell-strong">{{ course.code }}</td>
+                  <td>{{ course.name }}</td>
+                  <td class="cell-muted">{{ course.students.count }}</td>
+                  <td class="cell-muted">{{ course.teachers.count }}</td>
+                  <td>
+                    <div class="row-actions">
+                      <a href="{% url 'courses:edit_course' course.pk %}" class="link-primary">Edit</a>
+                      <a href="{% url 'courses:delete_course' course.pk %}" class="link-destructive">Delete</a>
+                    </div>
+                  </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="2">No courses added yet.</td></tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="{% static 'JS/script.js' %}"></script>
+</body>
+</html>

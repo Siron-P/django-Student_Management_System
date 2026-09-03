@@ -31,10 +31,10 @@
       <header class="app-topbar">
         <h1>Student dashboard</h1>
         <div class="app-user">
-          <span class="app-user-avatar">R</span>
+          <span class="app-user-avatar">{{ user.first_name|first|upper }}</span>
           <span>
-            <span class="app-user-name" style="display:block;">Ram</span>
-            <span class="app-user-role">Student</span>
+            <span class="app-user-name" style="display:block;">{{ user.first_name }}</span>
+            <span class="app-user-role">{{ user.get_role_display }}</span>
           </span>
           <form method="post" action="{% url 'accounts:logout' %}" class="nav-links" style="display:inline;">
             {% csrf_token %}
@@ -45,10 +45,10 @@
  
       <main class="app-content">
         <h2 style="font-size:1.5rem;font-weight:800;letter-spacing:-0.02em;color:var(--foreground);margin:0;">
-          Welcome, Ram
+          Welcome, {{ user.first_name }}
         </h2>
         <p class="mt-1" style="font-size:0.875rem;color:var(--muted-foreground);">
-          Student ID STU001 · BCA · Semester 4
+          Student ID {{ profile.student_id }} · {{ profile.course}} · Semester {{ profile.semester }}
         </p>
  
         <div class="notice mt-6">

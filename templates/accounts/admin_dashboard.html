@@ -25,19 +25,18 @@
         <a href="{% url 'accounts:preregister' %}" class="app-nav-item">Preregister</a>
         <a href="#" class="app-nav-item">Students</a>
         <a href="#" class="app-nav-item">Teachers</a>
-        <a href="#" class="app-nav-item">Courses</a>
-        
+        <a href="{% url 'courses:course_list' %}" class="app-nav-item">Courses</a>
       </nav>
     </aside>
- 
+  
     <div class="app-main">
       <header class="app-topbar">
         <h1>Admin dashboard</h1>
         <div class="app-user">
-          <span class="app-user-avatar">A</span>
+          <span class="app-user-avatar">{{ user.first_name|first|upper}}</span>
           <span class="app-user-info">
-            <span class="app-user-name">Anil</span>
-            <span class="app-user-role">Admin</span>
+            <span class="app-user-name">{{ user.first_name }}</span>
+            <span class="app-user-role">{{ user.get_role_display }}</span>
           </span>
           <form method="post" action="{% url 'accounts:logout' %}" class="nav-links" style="display:inline;">
             {% csrf_token %}
@@ -48,25 +47,25 @@
  
       <main class="app-content">
         <h2 style="font-size:1.5rem;font-weight:800;letter-spacing:-0.02em;color:var(--foreground);margin:0;">
-          Welcome back, Anil
+          Welcome back, {{ user.first_name }}
         </h2>
  
         <div class="grid sm-cols-2 lg-cols-4 mt-6">
           <div class="stat-card">
             <p class="stat-card-label">Total students</p>
-            <p class="stat-card-value">128</p>
+            <p class="stat-card-value">{{ total_students }}</p>
           </div>
           <div class="stat-card">
             <p class="stat-card-label">Total teachers</p>
-            <p class="stat-card-value">14</p>
+            <p class="stat-card-value">{{ total_teachers }}</p>
           </div>
           <div class="stat-card">
             <p class="stat-card-label">Total courses</p>
-            <p class="stat-card-value">9</p>
+            <p class="stat-card-value">{{ total_courses }}</p>
           </div>
           <div class="stat-card">
             <p class="stat-card-label">Pending signups</p>
-            <p class="stat-card-value">23</p>
+            <p class="stat-card-value">{{ pending_signups }}</p>
           </div>
         </div>
  
@@ -78,7 +77,47 @@
             <a href="#" class="pill-link">View courses</a>
           </div>
         </div>
- 
+
+        <div class="card p-0 mt-8">
+          <div class="card-header">
+            <h3>Recent teachers</h3>
+          </div>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Teacher ID</th>
+                  <th>Name</th>
+                  <th>Course</th>
+                  <th>Account status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for teacher in teachers %}
+                <tr>
+                  <td class="cell-strong">{{ teacher.teacher_id }}</td>
+                  <td>{{ teacher.first_name }} {{ teacher.last_name }}</td>
+                  <td class="cell-muted">
+                    {% for c in teacher.courses.all %}
+                    {{ c.code }} {% if not forloop.last %}, {% endif %}
+                    {% empty %}
+                      -
+                    {% endfor %}
+                  </td>
+                  <td>
+                    {% if teacher.user_id %}
+                    <span class="pill pill-good">Registered</span>
+                    {% else %}
+                    <span class="pill pill-warn">Pending</span>
+                    {% endif %}
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
         <div class="card p-0 mt-8">
           <div class="card-header">
             <h3>Recent students</h3>
@@ -95,49 +134,30 @@
                 </tr>
               </thead>
               <tbody>
+                {% for student in students %}
                 <tr>
-                  <td class="cell-strong">STU001</td>
-                  <td>Ram Thapa</td>
-                  <td class="cell-muted">BCA</td>
-                  <td class="cell-muted">Sem 4</td>
-                  <td><span class="pill pill-warn">Pending</span></td>
+                  <td class="cell-strong">{{ student.student_id }}</td>
+                  <td>{{ student.first_name }} {{ student.last_name }}</td>
+                  <td class="cell-muted">{{ student.course }}</td>
+                  <td class="cell-muted">{{ student.semester }}</td>
+                  <td>
+                    {% if student.user_id %}
+                    <span class="pill pill-good">Registered</span>
+                    {% else %}
+                    <span class="pill pill-warn">Pending</span>
+                    {% endif %}
+                  </td>
                 </tr>
-                <tr>
-                  <td class="cell-strong">STU002</td>
-                  <td>Sita Gurung</td>
-                  <td class="cell-muted">BSc CSIT</td>
-                  <td class="cell-muted">Sem 2</td>
-                  <td><span class="pill pill-good">Registered</span></td>
-                </tr>
-                <tr>
-                  <td class="cell-strong">STU003</td>
-                  <td>Bikash Shrestha</td>
-                  <td class="cell-muted">BIM</td>
-                  <td class="cell-muted">Sem 6</td>
-                  <td><span class="pill pill-good">Registered</span></td>
-                </tr>
-                <tr>
-                  <td class="cell-strong">STU004</td>
-                  <td>Anisha Karki</td>
-                  <td class="cell-muted">BCA</td>
-                  <td class="cell-muted">Sem 1</td>
-                  <td><span class="pill pill-warn">Pending</span></td>
-                </tr>
-                <tr>
-                  <td class="cell-strong">STU005</td>
-                  <td>Prakash Adhikari</td>
-                  <td class="cell-muted">BSc CSIT</td>
-                  <td class="cell-muted">Sem 5</td>
-                  <td><span class="pill pill-good">Registered</span></td>
-                </tr>
+                {% endfor %}
               </tbody>
             </table>
           </div>
         </div>
+        
       </main>
     </div>
   </div>
- 
+
   <script src="{% static 'JS/script.js' %}"></script>
 </body>
 </html>

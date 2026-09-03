@@ -1,0 +1,103 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin dashboard — ceniQ</title>
+  <meta name="description" content="ceniQ admin dashboard: students, teachers, courses and pending signups at a glance." />
+  <meta property="og:title" content="Admin dashboard — ceniQ" />
+  <meta property="og:description" content="Manage students, teachers and courses in ceniQ." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="stylesheet" href="{% static 'CSS/styles.css' %}" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="app-sidebar">
+      <a href="{% url 'accounts:index' %}" class="brand">
+        <img src="{% static 'IMG/ceniQ.png' %}" alt="ceniQ logo" class="ceniQ"/>
+          <span class="brand-sub">Student Management System</span>
+        </span>
+      </a>
+      <nav class="app-nav" aria-label="Admin">
+        <a href="{% url 'accounts:admin_dashboard' %}" class="app-nav-item">Dashboard</a>
+        <a href="{% url 'accounts:preregister' %}" class="app-nav-item">Preregister</a>
+        <a href="#" class="app-nav-item">Students</a>
+        <a href="#" class="app-nav-item">Teachers</a>
+        <a href="{% url 'courses:course_list' %}" class="app-nav-item active">Courses</a>
+        
+      </nav>
+    </aside>
+ 
+    <div class="app-main">
+      <header class="app-topbar">
+        <h1>Admin dashboard</h1>
+        <div class="app-user">
+          <span class="app-user-avatar">{{ user.first_name|first|upper}}</span>
+          <span class="app-user-info">
+            <span class="app-user-name">{{ user.first_name }}</span>
+            <span class="app-user-role">{{ user.get_role_display }}</span>
+          </span>
+          <form method="post" action="{% url 'accounts:logout' %}" class="nav-links" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="nav-link">Log out</button>
+          </form>
+        </div>
+      </header>
+
+  <div class="app-main">
+      <header class="app-topbar">
+        <h1>Add course</h1>
+        <div class="app-user">
+          <span class="app-user-avatar">A</span>
+          <span>
+            <span class="app-user-name" style="display:block;">Anil</span>
+            <span class="app-user-role">Admin</span>
+          </span>
+        </div>
+      </header>
+ 
+      <main class="app-content">
+        <div class="max-w-xl mx-auto">
+          <div class="card">
+            <h2 style="font-size:1.5rem;font-weight:800;letter-spacing:-0.02em;color:var(--foreground);margin:0;">
+              Add a course
+            </h2>
+            <p class="mt-1" style="font-size:0.875rem;color:var(--muted-foreground);">
+              Students and teachers will be assigned this later.
+            </p>
+ 
+            <div class="auth-error mt-6" role="alert">
+              Please fix the errors below.
+            </div>
+ 
+            <form method="post" action="{% url 'courses:add_course' %}" class="auth-form mt-6">
+            {% csrf_token %}
+              <div class="field">
+                <label for="name">Name</label>
+                <input id="name" name="name" type="text" required placeholder="e.g. BSc (Hons) Computing" />
+              </div>
+ 
+              <div class="field">
+                <label for="code">Code</label>
+                <input id="code" name="code" type="text" required maxlength="15" placeholder="e.g. Comp" />
+                <p class="field-hint">Unique code. Cannot be changed easily later.</p>
+              </div>
+ 
+              <button type="submit" class="btn btn-primary btn-block">Add course</button>
+ 
+              <div>
+                <a href="{% url 'courses:course_list' %}" style="font-size:0.875rem;font-weight:600;color:var(--muted-foreground);">Cancel</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+    </div>
+  </div>
+  <script src="{% static 'JS/script.js' %}"></script>
+</body>
+</html>
